@@ -12,7 +12,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vue-good-table/dist/vue-good-table.css'
 
 Vue.use(BootstrapVue)
-Vue.use(VueGoodTablePlugin);
+Vue.use(VueGoodTablePlugin)
 
 Vue.config.productionTip = false
 
