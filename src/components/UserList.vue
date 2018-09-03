@@ -21,27 +21,23 @@ export default {
   data() {
     return {
         columns: [
-        {
-          label: 'ID',
-          field: 'id',
-        },
-        {
-          label: 'First Name',
-          field: 'first_name',
-        },
-        {
-          label: 'Last Name',
-          field: 'last_name',
-        },
-        {
-          label: 'Email',
-          field: 'email',
-        },
-        {
-          label: 'Phone',
-          field: 'mobile',
-        },
-        
+          {
+            label: 'First Name',
+            field: 'first_name',
+          },
+          {
+            label: 'Last Name',
+            field: 'last_name',
+          },
+          {
+            label: 'Email',
+            field: 'email',
+          },
+          {
+            label: 'Phone',
+            field: 'mobile',
+          },
+          
         ],
         rows: [],
         totalRecords: 0,
@@ -81,12 +77,11 @@ export default {
 
     // load items is what brings back the rows from server
     loadItems() {
-     this.$http.get('/users', { 
+     this.$http.get('/users.json', { 
        params: this.serverParams
        }).then(response => {
-         console.log(response.data.totalRecords);
-         this.totalRecords = response.data.totalRecords;
-         this.rows = response.data.rows;
+         this.totalRecords = 10;
+         this.rows = response.data.users;
       });
     }
 },

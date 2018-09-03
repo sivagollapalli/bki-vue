@@ -29,6 +29,7 @@
 
 <script>
 export default {
+  name: 'Login',
   data () {
     return {
       form: {
@@ -48,19 +49,20 @@ export default {
       evt.preventDefault()
       alert(JSON.stringify(this.form))
 
-      this.$http.post('/users/sign_in', { user: this.email, password: this.password })
-      .then(request => this.loginSuccessful(request))
+      this.$http.post('/users/sign_in', this.form)
+      .then(response => this.loginSuccessful(response))
        .catch(() => this.loginFailed())
     },
-    loginSuccessful (req) {
-    if (!req.data.token) {
-        this.loginFailed()
-        return
-    }
+    loginSuccessful (res) {
+   
+      if (!res.headers['x-access-token']) {
+          this.loginFailed()
+          return
+      }
 
-    localStorage.token = req.data.token
-    this.error = false
-    this.checkUserLoggedIn()
+      localStorage.token = res.headers['x-access-token']
+      this.error = false
+      this.checkUserLoggedIn()
     },
 
     checkUserLoggedIn() {
