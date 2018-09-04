@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="col-md-12">
-      <router-link to="/users/new">Create User</router-link>
-    </div>
     <vue-good-table
         mode="remote"
         @on-page-change="onPageChange"

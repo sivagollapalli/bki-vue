@@ -6,22 +6,29 @@ import NewUser from '@/components/NewUser'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/users/sign_in',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/users',
-      name: 'UserList',
-      component: UserList
-    },
-    {
-      path: '/users/new',
-      name: 'NewUser',
-      component: NewUser
-    }
+const router = new Router({
+  routes: [ 
+    { path: '/users', name: 'UserList', component: UserList, meta: { requiresAuth: true } },
+    { path: '/users/new', name: 'NewUser', component: NewUser, meta: { requiresAuth: true } },
+    { path: '/users/sign_in', name: 'Login', component: Login }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.token) {
+      next({
+        path: '/users/sign_in'
+      });
+    } else {
+      console.log("123425454353")
+      next();
+    }
+  } else {
+    console.log("fdsfdfdsfdsfdsfd")
+    next();
+  }
+  next()
+})
+
+export default router
