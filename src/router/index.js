@@ -21,11 +21,9 @@ router.beforeEach((to, from, next) => {
         path: '/users/sign_in'
       });
     } else {
-      console.log("123425454353")
       next();
     }
   } else {
-    console.log("fdsfdfdsfdsfdsfd")
     next();
   }
   next()

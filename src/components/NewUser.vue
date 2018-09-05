@@ -65,22 +65,12 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
-        data() {
-            return {
-                user: {
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    mobile: '',
-                    role_id: '',
-                },
-                userTypes: [{value: 1, text: 'Admin'}, 
-                        {value: 2, text: 'Project Manager'}, 
-                        {value: 3, text: 'Project Foreman'}]
-                
-            }
-        },
+        computed: mapState([
+            'user',
+            'userTypes'
+        ]),
         mounted() {
             this.$refs.modal.show()
         },

@@ -28,16 +28,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'Login',
-  data () {
-    return {
-      form: {
-        email: '',
-        password: ''
-      }
-    }
-  },
+  computed: mapState([
+    'form'
+  ]),
   created(){
     this.checkUserLoggedIn()
   },
