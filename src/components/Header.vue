@@ -20,11 +20,18 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
     name: 'Header',
     methods: {
+        ...mapMutations([
+           'DELETE_TOKEN' 
+        ]),
+
         signOut(evt) {
-            console.log("signing out")
+            this.DELETE_TOKEN(localStorage.token)
+            this.$router.replace(this.$route.query.redirect || '/users/sign_in')
         }
     }
 }

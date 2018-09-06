@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -42,6 +42,22 @@ export default {
     this.checkUserLoggedIn()
   },
   methods: {
+    ...mapActions([
+      'saveToken'
+    ]),
+    ...mapMutations([
+      'ADD_TOKEN',
+      'DELETE_TOKEN'
+    ]),
+    saveAccessToken: function(token) {
+      this.saveToken(token)
+    },
+    addToken: function(token) {
+      this.ADD_TOKEN(token)
+    },
+    deleteToken: function(token) {
+      this.DELETE_TOKEN(token)
+    },  
     onSubmit (evt) {
       evt.preventDefault()
       alert(JSON.stringify(this.form))
@@ -51,13 +67,12 @@ export default {
        .catch(() => this.loginFailed())
     },
     loginSuccessful (res) {
-   
       if (!res.headers['x-access-token']) {
           this.loginFailed()
           return
       }
 
-      localStorage.token = res.headers['x-access-token']
+      this.addToken(res.headers['x-access-token'])
       this.error = false
       this.checkUserLoggedIn()
     },
@@ -69,7 +84,7 @@ export default {
     },
     loginFailed () {
         this.error = 'Login failed!'
-        delete localStorage.token
+        this.deleteToken(localStorage.token)
     }
   }
 }
