@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'UserList',
   data() {
@@ -34,27 +36,37 @@ export default {
             label: 'Phone',
             field: 'mobile',
           },
-          
         ],
-        rows: [],
-        totalRecords: 0,
-        serverParams: { page: 1,  perPage: 10 }
     }; 
   },
 
+  computed: mapState([
+    'rows',
+    'totalRecords',
+    'serverParams'
+  ]),
+
   methods: {
+    ...mapActions([
+      'fetchUsers'
+    ]),
+
+    fetchUser: function() {
+      this.fetchUsers()
+    },
+
     updateParams(newProps) {
       this.serverParams = Object.assign({}, this.serverParams, newProps);
     },
     
     onPageChange(params) {
       this.updateParams({page: params.currentPage});
-      this.loadItems();
+      this.fetchUser()
     },
 
     onPerPageChange(params) {
       this.updateParams({perPage: params.currentPerPage});
-      this.loadItems();
+      this.fetchUser()
     },
 
     onSortChange(params) {
@@ -64,27 +76,17 @@ export default {
           field: this.columns[params.columnIndex].field,
         },
       });
-      this.loadItems();
+      this.fetchUser()
     },
     
     onColumnFilter(params) {
       this.updateParams(params);
-      this.loadItems();
+      this.fetchUser()
     },
-
-    // load items is what brings back the rows from server
-    loadItems() {
-     this.$http.get('/users.json', { 
-       params: this.serverParams
-       }).then(response => {
-         this.totalRecords = 10;
-         this.rows = response.data.users;
-      });
-    }
 },
 
 mounted() {
-    this.loadItems();
+    this.fetchUser()
 }
 
 }  

@@ -42,37 +42,26 @@ export default {
     this.checkUserLoggedIn()
   },
   methods: {
-    ...mapActions([
-      'saveToken'
-    ]),
     ...mapMutations([
       'ADD_TOKEN',
       'DELETE_TOKEN'
     ]),
-    saveAccessToken: function(token) {
-      this.saveToken(token)
-    },
-    addToken: function(token) {
-      this.ADD_TOKEN(token)
-    },
-    deleteToken: function(token) {
-      this.DELETE_TOKEN(token)
-    },  
+
     onSubmit (evt) {
       evt.preventDefault()
-      alert(JSON.stringify(this.form))
 
       this.$http.post('/users/sign_in', this.form)
       .then(response => this.loginSuccessful(response))
        .catch(() => this.loginFailed())
     },
+
     loginSuccessful (res) {
       if (!res.headers['x-access-token']) {
           this.loginFailed()
           return
       }
 
-      this.addToken(res.headers['x-access-token'])
+      this.ADD_TOKEN(res.headers['x-access-token'])
       this.error = false
       this.checkUserLoggedIn()
     },
@@ -82,9 +71,10 @@ export default {
         this.$router.replace(this.$route.query.redirect || '/users')
       }
     },
+
     loginFailed () {
         this.error = 'Login failed!'
-        this.deleteToken(localStorage.token)
+        this.DELETE_TOKEN(localStorage.token)
     }
   }
 }
