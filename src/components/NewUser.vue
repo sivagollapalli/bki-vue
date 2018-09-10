@@ -65,25 +65,28 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapActions } from 'vuex'
     export default {
         computed: mapState([
             'user',
-            'userTypes'
+            'userTypes',
+            'errors'
         ]),
         mounted() {
             this.$refs.modal.show()
         },
+        beforeMount() {
+            this.fetchRoles()   
+        },
         methods: {
+            ...mapActions([
+                'createUser',
+                'fetchRoles'
+            ]),
             onSubmit(evt) {
                 evt.preventDefault()
                 console.log("form submitting.....")
-                
-                this.$http.post("/users", { user: this.user}).then((result) => {
-                    console.log(result)                    
-                }).catch((err) => {
-                    console.log(err)
-                });
+                this.createUser()
             }
         }
     }

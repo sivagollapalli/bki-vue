@@ -48,12 +48,8 @@ export default {
 
   methods: {
     ...mapActions([
-      'fetchUsers'
+      'fetchUsers',
     ]),
-
-    fetchUser: function() {
-      this.fetchUsers()
-    },
 
     updateParams(newProps) {
       this.serverParams = Object.assign({}, this.serverParams, newProps);
@@ -66,7 +62,7 @@ export default {
 
     onPerPageChange(params) {
       this.updateParams({perPage: params.currentPerPage});
-      this.fetchUser()
+      this.fetchUsers()
     },
 
     onSortChange(params) {
@@ -81,12 +77,12 @@ export default {
     
     onColumnFilter(params) {
       this.updateParams(params);
-      this.fetchUser()
+      this.fetchUsers()
     },
 },
 
 mounted() {
-    this.fetchUser()
+    this.fetchUsers()
 }
 
 }  

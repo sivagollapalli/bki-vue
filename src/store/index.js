@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../backend/vue-axios/axios'
+import router from "../router"
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export const store = new Vuex.Store({
             mobile: '',
             role_id: '',
         },
+        errors: {},
         userTypes: [{value: 1, text: 'Admin'}, 
                     {value: 2, text: 'Project Manager'}, 
                     {value: 3, text: 'Project Foreman'}],
@@ -43,6 +45,15 @@ export const store = new Vuex.Store({
             }).then(response => {
                 context.commit('FETCH_USERS', response.data)
             }); 
+        },
+        createUser(context) {
+            axios.post("/users", { user: context.state.user } )
+                .then(() => {
+                    console.log(router)
+                    router.push({path: "/users"})
+                }).catch((error) => {
+                    console.log(error)
+                });
         }
     }
 
